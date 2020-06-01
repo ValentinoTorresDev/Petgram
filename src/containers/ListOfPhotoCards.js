@@ -17,7 +17,7 @@ const query = gql`
 `
 
 export const ListOfPhotoCards = ({ categoryId }) => (
-  <Query query={query}>
+  <Query query={query} variables={{ categoryId }}>
     {
       ({ loading, error, data }) => {
         if (loading) { return null }
