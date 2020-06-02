@@ -1,31 +1,11 @@
 import React from 'react'
 import { PhotoCard } from '../components/PhotoCard'
+import { usePhotoCard } from '../hooks/usePhotoCard'
 
-import { gql } from 'apollo-boost'
-import { Query } from 'react-apollo'
-
-const query = gql`
-    query getSinglePhoto($id:ID!){
-        photo(id : $id){
-            id
-            categoryId
-            src
-            likes
-            userId
-            liked
-        }
-    }
-`
-
-export const PhotoCardWithQuery = ({ id }) => (
-  <Query query={query} variables={{ id }}>
-    {
-      ({ loading, error, data }) => {
-        if (loading) { return null }
-        if (error) { console.log(error) }
-        const { photo = {} } = data
-        return <PhotoCard {...photo} />
-      }
-    }
-  </Query>
-)
+export const PhotoCardWithQuery = ({ id }) => {
+  const { loading, error, data } = usePhotoCard({ id })
+  if (loading) { return <h1>Cargando...</h1> }
+  if (error) { return <h1>Ha ocurrido un error...</h1> }
+  const { photo: { src } } = data
+  return (<PhotoCard src={src} />)
+}
