@@ -16,8 +16,16 @@ export const Nav = styled.nav`
     right: 0;
     width: 100%;
     z-index: 1000;
+    & .active{
+        color: #000;
+        display: inline-flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+    }
 `
-export const LinkStyled = styled(Link)`
+export const StyledLink = styled(Link)`
     align-items: center;
     color: #888;
     display: inline-flex;
