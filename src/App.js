@@ -8,10 +8,7 @@ import { User } from './pages/User'
 import { NotRegisteredUser } from './pages/NotRegisteredUser'
 import { Router } from '@reach/router'
 import { Navbar } from './components/Navbar'
-
-const UserLogged = ({ children }) => {
-  return children({ isAuth: true })
-}
+import Context from './Context'
 
 export const App = () => {
   const urlParams = new window.URLSearchParams(window.location.search)
@@ -26,7 +23,7 @@ export const App = () => {
         <Home path='/pet/:id' />
         <Detail path='/detail/:detailID' />
       </Router>
-      <UserLogged>
+      <Context.Consumer>
         {
           ({ isAuth }) =>
             isAuth
@@ -39,7 +36,7 @@ export const App = () => {
                 <NotRegisteredUser path='/user' />
               </Router>
         }
-      </UserLogged>
+      </Context.Consumer>
 
       <Navbar />
     </>
