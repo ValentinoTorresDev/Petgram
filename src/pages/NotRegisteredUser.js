@@ -1,14 +1,30 @@
 import React from 'react'
 import Context from '../Context'
-import { Button } from '../components/FavButton/styles'
+import { UseForm } from '../components/UserForm'
+import { RegisterMutation } from '../containers/RegisterMutation'
+
 export const NotRegisteredUser = () => (
   <Context.Consumer>
     {
       ({ activateAuth }) => {
         return (
-          <form onSubmit={activateAuth}>
-            <button>Ingresar</button>
-          </form>
+          <>
+            <RegisterMutation>
+              {
+                (register) => {
+                  const onSubmitTest = ({ email, password }) => {
+                    const input = { email, password }
+                    const variables = { input }
+                    register({ variables }).then(activateAuth)
+                  }
+                  return (
+                    <UseForm onSubmit={onSubmitTest} title='Registrarse' />
+                  )
+                }
+              }
+            </RegisterMutation>
+            <UseForm onSubmit={activateAuth} title='Iniciar Sesión' />
+          </>
         )
       }
     }
