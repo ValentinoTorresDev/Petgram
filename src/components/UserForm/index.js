@@ -8,6 +8,7 @@ export const UseForm = ({ onSubmit, title }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     onSubmit({ email: email.value, password: password.value })
+    console.log('hola')
   }
 
   return (

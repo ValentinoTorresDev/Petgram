@@ -1,17 +1,14 @@
-import React from 'react'
-import { Mutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
+import { useMutation } from 'react-apollo'
 
-const Register = gql`
+const REGISTER = gql`
   mutation signup($input: UserCredentials!){
     signup(input: $input)
   }
 `
-
-export const RegisterMutation = ({ children }) => {
-  return (
-    <Mutation mutation={Register}>
-      {children}
-    </Mutation>
-  )
+export const useRegisterMutation = (email, password) => {
+  const [register] = useMutation(REGISTER, {
+    variables: { input: { email, password } }
+  })
+  return register
 }
