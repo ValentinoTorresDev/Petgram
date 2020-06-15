@@ -1,35 +1,29 @@
 import React from 'react'
 import Context from '../Context'
 import { UseForm } from '../components/UserForm'
-import { RegisterMutation } from '../containers/RegisterMutation'
+import { useRegister } from '../hooks/useRegister'
+import { useLogin } from '../hooks/useLogin'
 
-export const NotRegisteredUser = () => (
-  <Context.Consumer>
-    {({ activateAuth }) => {
-      return (
-        <>
-          <RegisterMutation>
-            {(register, { data, loading, error }) => {
-              const onSubmitTest = ({ email, password }) => {
-                const input = { email, password }
-                const variables = { input }
-                register({ variables }).then(activateAuth)
-              }
-              const errorMessage = error && 'El usuario ya existe o hay algún problema'
+export const NotRegisteredUser = () => {
+  const { loginUser, data: dataLog, error: errorLog, loading: loadingLog } = useLogin()
+  const { registerUser, data: dataReg, error: errorReg, loading: loadingReg } = useRegister()
 
-              return (
-                <UseForm
-                  disabled={loading}
-                  error={errorMessage}
-                  onSubmit={onSubmitTest}
-                  title='Registrarse'
-                />
-              )
-            }}
-          </RegisterMutation>
-          <UseForm onSubmit={activateAuth} title='Iniciar Sesión' />
-        </>
-      )
-    }}
-  </Context.Consumer>
-)
+  const errorMessageReg = errorReg && 'El usuario ya existe o hay algún problema'
+  const errorMessageLog = errorLog && 'La contraseña es incorrecta o el usuario no existe'
+
+  if (dataReg || dataLog) {
+    console.log(dataReg)
+    console.log(dataLog)
+    return (
+      <Context.Consumer>
+        {({ activateAuth }) => activateAuth()}
+      </Context.Consumer>
+    )
+  }
+  return (
+    <>
+      <UseForm error={errorMessageReg} disabled={loadingReg} onSubmit={registerUser} title='Registrarse' />
+      <UseForm error={errorMessageLog} disabled={loadingLog} onSubmit={loginUser} title='Iniciar Sesión' />
+    </>
+  )
+}
