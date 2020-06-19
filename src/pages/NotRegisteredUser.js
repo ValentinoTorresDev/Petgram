@@ -3,10 +3,11 @@ import { Context } from '../Context'
 import { UseForm } from '../components/UserForm'
 import { RegisterMutation } from '../containers/RegisterMutation'
 import { LoginMutation } from '../containers/LoginMutation'
+import { Layout } from '../components/Layout'
 export const NotRegisteredUser = () => {
   const { activateAuth } = useContext(Context)
   return (
-    <>
+    <Layout title='Registro | Iniciar Sesión' subtitle='Aquí puedes registrarte o iniciar sesión'>
       <RegisterMutation>
         {(register, { data, loading, error }) => {
           const onSubmit = ({ email, password }) => {
@@ -17,7 +18,8 @@ export const NotRegisteredUser = () => {
               activateAuth(signup)
             })
           }
-          const errorMessage = error && 'El usuario ya existe o hay algún problema'
+          const errorMessage =
+            error && 'El usuario ya existe o hay algún problema'
 
           return (
             <UseForm
@@ -39,7 +41,8 @@ export const NotRegisteredUser = () => {
               activateAuth(login)
             })
           }
-          const errorMessage = error && 'El usuario ya existe o hay algún problema'
+          const errorMessage =
+            error && 'El usuario ya existe o hay algún problema'
           return (
             <UseForm
               disabled={loading}
@@ -50,6 +53,6 @@ export const NotRegisteredUser = () => {
           )
         }}
       </LoginMutation>
-    </>
+    </Layout>
   )
 }
