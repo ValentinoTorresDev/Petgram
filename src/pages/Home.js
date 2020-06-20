@@ -3,7 +3,7 @@ import { ListOfCategories } from '../components/ListOfCategories'
 import { ListOfPhotoCards } from '../containers/ListOfPhotoCards'
 import { Layout } from '../components/Layout'
 
-export const Home = ({ id }) => {
+const HomePage = ({ id }) => {
   return (
     <Layout
       title='Tu app de fotos de mascotas'
@@ -14,3 +14,7 @@ export const Home = ({ id }) => {
     </Layout>
   )
 }
+
+export const Home = React.memo(HomePage, (prevProps, props) => {
+  return prevProps.id === props.id
+})
